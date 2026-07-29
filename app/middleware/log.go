@@ -6,6 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/requestid"
+	"github.com/vulan1999/todo-htmx/app/helpers"
 )
 
 func StructuredLogger() fiber.Handler {
@@ -18,13 +19,27 @@ func StructuredLogger() fiber.Handler {
 
 		requestId := requestid.FromContext(c)
 
-		slog.Info("HTTP Request",
-			slog.String("requestId", requestId),
-			slog.Int("status", status),
-			slog.String("method", c.Method()),
-			slog.String("path", c.Path()),
-			slog.Duration("latency", latency),
-		)
+		enviroment := helpers.GetEnv("APP_ENV", "development")
+
+		if enviroment == "production" {
+			slog.Info("HTTP Request",
+				slog.String("requestId", requestId),
+				slog.Int("status", status),
+				slog.String("method", c.Method()),
+				slog.String("path", c.Path()),
+				slog.Duration("latency", latency),
+			)
+		} else {
+			slog.Info("HTTP Request",
+				slog.String("requestId", requestId),
+				slog.Int("status", status),
+				slog.String("method", c.Method()),
+				slog.String("path", c.Path()),
+				slog.String("request_body", string(c.Body())),
+				slog.String("response_body", string(c.Response().Body())),
+				slog.Duration("latency", latency),
+			)
+		}
 
 		return err
 	}

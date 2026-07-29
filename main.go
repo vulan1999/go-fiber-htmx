@@ -6,9 +6,19 @@ import (
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/requestid"
 	"github.com/gofiber/template/html/v3"
+	"github.com/joho/godotenv"
 	"github.com/vulan1999/todo-htmx/app/middleware"
 	"github.com/vulan1999/todo-htmx/app/routes"
 )
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Cannot find .env file, relying on system enviroment variables")
+	} else {
+		log.Println(".env file found")
+	}
+}
 
 func main() {
 	// HTML template engine
