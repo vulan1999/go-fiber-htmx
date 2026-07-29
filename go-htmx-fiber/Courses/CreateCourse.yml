@@ -1,0 +1,21 @@
+info:
+  name: CreateCourse
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{host}}/api/courses"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "course4"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
