@@ -7,11 +7,14 @@ import (
 	"github.com/gofiber/fiber/v3/middleware/requestid"
 	"github.com/gofiber/template/html/v3"
 	"github.com/joho/godotenv"
+	"github.com/vulan1999/todo-htmx/app/database"
+	"github.com/vulan1999/todo-htmx/app/helpers"
 	"github.com/vulan1999/todo-htmx/app/middleware"
 	"github.com/vulan1999/todo-htmx/app/routes"
 )
 
 func init() {
+	// Load enviroment variables
 	err := godotenv.Load()
 	if err != nil {
 		log.Println("Cannot find .env file, relying on system enviroment variables")
@@ -33,6 +36,14 @@ func main() {
 	app.Use(requestid.New())
 	app.Use(middleware.StructuredLogger())
 
+	// Connect to Mongo Db
+	mongoUri := helpers.GetEnv("MONGODB_URI", "mongodb://localhost:27017")
+	mongoDbName := helpers.GetEnv("MONGODB_NAME", "sample_mflix")
+
+	if err := database.ConnectMongoDB(mongoUri, mongoDbName); err != nil {
+		log.Fatalf("Connect to MongoDb failed: %v", err)
+	}
+
 	// Api group
 	app.Get("/", func(c fiber.Ctx) error {
 		return c.Render("index", fiber.Map{
@@ -41,7 +52,8 @@ func main() {
 		}, "layouts/main")
 	})
 
-	routes.ApiGroup(app)
+	routes.ApiCourseGroup(app)
+	routes.ApiMovieGroup(app)
 
 	//Run
 	log.Fatal(app.Listen(":3000"))

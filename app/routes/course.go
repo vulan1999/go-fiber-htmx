@@ -11,8 +11,8 @@ type Course struct {
 	Name string `json:"name"`
 }
 
-func ApiGroup(app *fiber.App) {
-	api := app.Group("/api")
+func ApiCourseGroup(app *fiber.App) {
+	api := app.Group("/api/courses")
 
 	courses := []Course{
 		{Id: 1, Name: "Course1"},
@@ -21,11 +21,11 @@ func ApiGroup(app *fiber.App) {
 	}
 
 	// ----- Get Path ------
-	api.Get("/courses", func(c fiber.Ctx) error {
+	api.Get("/", func(c fiber.Ctx) error {
 		return c.JSON(courses)
 	})
 
-	api.Get("/courses/:id", func(c fiber.Ctx) error {
+	api.Get("/:id", func(c fiber.Ctx) error {
 		id, err := strconv.Atoi(c.Params("id"))
 		if err != nil {
 			return c.Status(fiber.StatusBadRequest).SendString("Invalid Id")
@@ -40,7 +40,7 @@ func ApiGroup(app *fiber.App) {
 	})
 
 	// ---  Post path ---
-	api.Post("/courses", func(c fiber.Ctx) error {
+	api.Post("/", func(c fiber.Ctx) error {
 		var course Course
 
 		if err := c.Bind().Body(&course); err != nil {
@@ -54,7 +54,7 @@ func ApiGroup(app *fiber.App) {
 	})
 
 	// --- Put Path ---
-	api.Put("/courses/:id", func(c fiber.Ctx) error {
+	api.Put("/:id", func(c fiber.Ctx) error {
 		id, err := strconv.Atoi(c.Params("id"))
 
 		if err != nil {
@@ -88,7 +88,7 @@ func ApiGroup(app *fiber.App) {
 	})
 
 	// -- Delete path --
-	api.Delete("/courses/:id", func(c fiber.Ctx) error {
+	api.Delete("/:id", func(c fiber.Ctx) error {
 		id, err := strconv.Atoi(c.Params("id"))
 
 		if err != nil {
