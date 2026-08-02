@@ -9,4 +9,5 @@ func ApiMovieGroup(app *fiber.App) {
 	movie := app.Group("/api/movies")
 
 	movie.Get("/", controllers.GetMovies)
+	movie.Post("/", controllers.GetMoviesByFilter)
 }

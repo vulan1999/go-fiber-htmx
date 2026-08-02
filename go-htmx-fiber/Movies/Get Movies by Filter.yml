@@ -1,0 +1,15 @@
+info:
+  name: Get Movies by Filter
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{host}}/api/movies"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
