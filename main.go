@@ -7,10 +7,10 @@ import (
 	"github.com/gofiber/fiber/v3/middleware/requestid"
 	"github.com/gofiber/template/html/v3"
 	"github.com/joho/godotenv"
-	"github.com/vulan1999/todo-htmx/app/database"
-	"github.com/vulan1999/todo-htmx/app/helpers"
-	"github.com/vulan1999/todo-htmx/app/middleware"
-	"github.com/vulan1999/todo-htmx/app/routes"
+	"github.com/vulan1999/todo-htmx/internal/database"
+	"github.com/vulan1999/todo-htmx/internal/helpers"
+	"github.com/vulan1999/todo-htmx/internal/middleware"
+	"github.com/vulan1999/todo-htmx/internal/services/movie"
 )
 
 func init() {
@@ -52,8 +52,7 @@ func main() {
 		}, "layouts/main")
 	})
 
-	routes.ApiCourseGroup(app)
-	routes.ApiMovieGroup(app)
+	movie.ApiMovieGroup(app)
 
 	//Run
 	log.Fatal(app.Listen(":3000"))

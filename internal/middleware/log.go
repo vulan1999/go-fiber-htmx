@@ -6,7 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/requestid"
-	"github.com/vulan1999/todo-htmx/app/helpers"
+	"github.com/vulan1999/todo-htmx/internal/helpers"
 )
 
 func StructuredLogger() fiber.Handler {

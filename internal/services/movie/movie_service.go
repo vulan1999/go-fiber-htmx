@@ -1,10 +1,9 @@
-package services
+package movie
 
 import (
 	"context"
 
-	"github.com/vulan1999/todo-htmx/app/database"
-	"github.com/vulan1999/todo-htmx/app/models"
+	"github.com/vulan1999/todo-htmx/internal/database"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -20,7 +19,7 @@ func NewMovieService(collection *mongo.Collection) *MovieService {
 	}
 }
 
-func (s *MovieService) GetMoviesCollection(filter models.MovieFilter) ([]models.Movie, error) {
+func (s *MovieService) GetMoviesCollection(filter MovieFilter) ([]Movie, error) {
 	query := bson.M{}
 
 	if filter.Title != "" {
@@ -45,7 +44,7 @@ func (s *MovieService) GetMoviesCollection(filter models.MovieFilter) ([]models.
 	}
 	defer cursor.Close(context.TODO())
 
-	movies := []models.Movie{}
+	movies := []Movie{}
 	if err := cursor.All(context.TODO(), &movies); err != nil {
 		return nil, err
 	}
