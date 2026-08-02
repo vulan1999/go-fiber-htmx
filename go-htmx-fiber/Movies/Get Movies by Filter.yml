@@ -5,7 +5,13 @@ info:
 
 http:
   method: POST
-  url: "{{host}}/api/movies"
+  url: "{{host}}/api/movies/search"
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Ant"
+      }
   auth: inherit
 
 settings:

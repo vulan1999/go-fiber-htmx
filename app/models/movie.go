@@ -21,3 +21,11 @@ type Imdb struct {
 	Rating any `json:"rating" bson:"rating"`
 	Votes  any `json:"votes" bson:"votes"`
 }
+
+type MovieFilter struct {
+	Title    string `json:"title" bson:"title"`
+	YearFrom int    `json:"year_from" bson:"year_from"`
+	YearTo   int    `json:"year_to" bson:"year_to"`
+	Page     int64  `json:"page" bson:"page"`
+	Limit    int64  `json:"limit" bson:"limit"`
+}
