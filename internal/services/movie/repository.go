@@ -9,17 +9,17 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
-type MovieService struct {
+type MovieRepository struct {
 	collection *mongo.Collection
 }
 
-func NewMovieService(collection *mongo.Collection) *MovieService {
-	return &MovieService{
+func NewMovieRepository(collection *mongo.Collection) *MovieRepository {
+	return &MovieRepository{
 		collection: database.DB.Collection("movies"),
 	}
 }
 
-func (s *MovieService) GetMoviesCollection(filter MovieFilter) ([]Movie, error) {
+func (m *MovieRepository) GetMoviesCollection(filter MovieFilter) ([]Movie, error) {
 	query := bson.M{}
 
 	if filter.Title != "" {
@@ -38,7 +38,7 @@ func (s *MovieService) GetMoviesCollection(filter MovieFilter) ([]Movie, error) 
 
 	queryOptions := options.Find().SetSkip(offset).SetLimit(filter.Limit).SetSort(bson.M{"year": -1})
 
-	cursor, err := s.collection.Find(context.TODO(), query, queryOptions)
+	cursor, err := m.collection.Find(context.TODO(), query, queryOptions)
 	if err != nil {
 		return nil, err
 	}

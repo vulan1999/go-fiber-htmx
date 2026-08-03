@@ -11,6 +11,7 @@ import (
 	"github.com/vulan1999/todo-htmx/internal/helpers"
 	"github.com/vulan1999/todo-htmx/internal/middleware"
 	"github.com/vulan1999/todo-htmx/internal/services/movie"
+	"github.com/vulan1999/todo-htmx/internal/services/theater"
 )
 
 func init() {
@@ -53,6 +54,7 @@ func main() {
 	})
 
 	movie.ApiMovieGroup(app)
+	theater.ApiTheaterGroup(app)
 
 	//Run
 	log.Fatal(app.Listen(":3000"))

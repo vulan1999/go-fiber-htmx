@@ -4,13 +4,13 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-type MovieController struct {
-	service *MovieService
+type MovieHandler struct {
+	repo *MovieRepository
 }
 
-func NewMovieController(service *MovieService) *MovieController {
-	return &MovieController{
-		service: service,
+func NewMovieHandler(repo *MovieRepository) *MovieHandler {
+	return &MovieHandler{
+		repo: repo,
 	}
 }
 
@@ -25,7 +25,7 @@ func NewMovieController(service *MovieService) *MovieController {
 // @Failure 500 {object} fiber.Map{"Error": "Query film list failed"}
 // @Router /api/movies [get]
 
-func (mc *MovieController) GetMovies(c fiber.Ctx) error {
+func (mh *MovieHandler) GetMovies(c fiber.Ctx) error {
 	page := fiber.Query[int64](c, "page", 1)
 	limit := fiber.Query[int64](c, "limit", 10)
 
@@ -34,7 +34,7 @@ func (mc *MovieController) GetMovies(c fiber.Ctx) error {
 		Limit: limit,
 	}
 
-	movies, err := mc.service.GetMoviesCollection(filter)
+	movies, err := mh.repo.GetMoviesCollection(filter)
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -42,7 +42,9 @@ func (mc *MovieController) GetMovies(c fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(movies)
+	return c.JSON(fiber.Map{
+		"data": movies,
+	})
 }
 
 // @Summary Search Movies
@@ -53,7 +55,7 @@ func (mc *MovieController) GetMovies(c fiber.Ctx) error {
 // @Success 200 {array} Movie
 // @Failure 500 {object} fiber.Map{"Error": "Query film list failed"}
 // @Router /api/movies/search [post]
-func (mc *MovieController) SearchMovies(c fiber.Ctx) error {
+func (mh *MovieHandler) SearchMovies(c fiber.Ctx) error {
 	var request MovieFilter
 	if err := c.Bind().JSON(&request); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -61,7 +63,7 @@ func (mc *MovieController) SearchMovies(c fiber.Ctx) error {
 		})
 	}
 
-	movies, err := mc.service.GetMoviesCollection(request)
+	movies, err := mh.repo.GetMoviesCollection(request)
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -69,5 +71,7 @@ func (mc *MovieController) SearchMovies(c fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(movies)
+	return c.JSON(fiber.Map{
+		"data": movies,
+	})
 }
