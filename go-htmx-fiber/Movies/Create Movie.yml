@@ -1,0 +1,31 @@
+info:
+  name: Create Movie
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{host}}/api/movies/create"
+  body:
+    type: json
+    data: |-
+      {
+            "title": "Teenage Mutant Ninja Turtles: Out of the Shadows",
+            "plot": "The Turtles get into another battle with their enemy the Shredder, who has acquired new allies: the mutant thugs Bebop and Rocksteady and the alien being Krang.",
+            "poster": "https://m.media-amazon.com/images/M/MV5BZDgyNWExMzUtOTAyMy00ZjkzLWFhNzgtZTFhOTBmN2RhZGJhXkEyXkFqcGc@._V1_QL75_UX380_CR0,4,380,562_.jpg",
+            "year": 2016,
+            "released": "2016-06-01T00:00:00Z",
+            "rated": "C13",
+            "imdb": {
+              "id": 3949660,
+              "rating": 5.9,
+              "votes": 286
+            }
+          }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

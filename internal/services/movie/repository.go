@@ -2,6 +2,7 @@ package movie
 
 import (
 	"context"
+	"log"
 
 	"github.com/vulan1999/todo-htmx/internal/database"
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -50,4 +51,58 @@ func (m *MovieRepository) GetMoviesCollection(filter MovieFilter) ([]Movie, erro
 	}
 
 	return movies, nil
+}
+
+func (m *MovieRepository) CreateMovie(movie Movie) error {
+	cursor, err := m.collection.InsertOne(context.TODO(), movie)
+
+	if err != nil {
+		return err
+	}
+
+	log.Printf("New Movie insert to db with _id: %v", cursor.InsertedID)
+
+	return nil
+
+}
+
+func (m *MovieRepository) UpdateMovie(updateMovieRequest MovieUpdateRequest, id bson.ObjectID) error {
+	filter := bson.M{"_id": id}
+
+	updateQuery := bson.M{}
+
+	if updateMovieRequest.Title != "" {
+		updateQuery["title"] = updateMovieRequest.Title
+	}
+
+	if updateMovieRequest.Plot != "" {
+		updateQuery["plot"] = updateMovieRequest.Plot
+	}
+
+	if updateMovieRequest.Poster != "" {
+		updateQuery["poster"] = updateMovieRequest.Poster
+	}
+
+	if updateMovieRequest.Rated != "" {
+		updateQuery["rated"] = updateMovieRequest.Rated
+	}
+
+	if updateMovieRequest.Year > 0 {
+		updateQuery["year"] = updateMovieRequest.Year
+	}
+
+	update := bson.M{
+		"$set": updateQuery,
+	}
+
+	cursor, err := m.collection.UpdateOne(context.TODO(), filter, update)
+
+	if err != nil {
+		return err
+	}
+
+	log.Printf("Matched Records: %d", cursor.MatchedCount)
+	log.Printf("Modified Records: %d", cursor.ModifiedCount)
+
+	return nil
 }

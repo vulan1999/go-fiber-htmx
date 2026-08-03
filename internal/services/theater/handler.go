@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v3"
+	"github.com/vulan1999/todo-htmx/internal/helpers"
 )
 
 type TheaterHandler struct {
@@ -23,20 +24,22 @@ func NewTheaterHandler(repo *TheaterRepository) *TheaterHandler {
 // @Produce json
 // @Param page query int false "Page number" default(1)
 // @Param limit query int false "Number of theaters per page" default(10)
-// @Success 200 {array} Theater
-// @Failure 500 {object} fiber.Map{"Error": "Query film list failed"}
+// @Success 200 {object} helpers.ApiResponse
+// @Failure 500 {object} helpers.ApiResponse
 // @Router /api/theaters [get]
 func (th *TheaterHandler) GetTheaters(c fiber.Ctx) error {
 	theaters, err := th.repo.GetTheatersCollection()
 
 	if err != nil {
 		log.Printf("Error: %v", err)
-		return c.Status(fiber.StatusInternalServerError).JSON((fiber.Map{
-			"Error": "Internal Server Error",
-		}))
+		return c.Status(fiber.StatusInternalServerError).JSON(helpers.ApiResponse{
+			Message: "Internal Server Error",
+			Data:    nil,
+		})
 	}
 
-	return c.JSON(fiber.Map{
-		"data": theaters,
+	return c.JSON(helpers.ApiResponse{
+		Message: "Get theaters list successfully",
+		Data:    theaters,
 	})
 }

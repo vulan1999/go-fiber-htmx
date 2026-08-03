@@ -29,3 +29,11 @@ type MovieFilter struct {
 	Page     int64  `json:"page" bson:"page"`
 	Limit    int64  `json:"limit" bson:"limit"`
 }
+
+type MovieUpdateRequest struct {
+	Title  string `json:"title" bson:"title"`
+	Plot   string `json:"plot" bson:"plot"`
+	Poster string `json:"poster" bson:"poster"`
+	Year   int    `json:"year" bson:"year"`
+	Rated  string `json:"rated" bson:"rated"`
+}

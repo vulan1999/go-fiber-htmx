@@ -1,16 +1,16 @@
 info:
-  name: Get Movies by Filter
+  name: Update Movie
   type: http
   seq: 1
 
 http:
-  method: POST
-  url: "{{host}}/api/movies/search"
+  method: PUT
+  url: "{{host}}/api/movies/update/6a70ac2bcaf39ace0eb504ae"
   body:
     type: json
     data: |-
       {
-        "title": "Ninja"
+        "title": "Teenage Mutant Ninja Turtles: Out of the Shadows"
       }
   auth: inherit
 

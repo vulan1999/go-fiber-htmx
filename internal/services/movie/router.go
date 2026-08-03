@@ -8,8 +8,10 @@ import (
 func ApiMovieGroup(app *fiber.App) {
 	movie := app.Group("/api/movies")
 	movieRepository := NewMovieRepository(database.DB.Collection("movies"))
-	movieController := NewMovieHandler(movieRepository)
+	movieHandler := NewMovieHandler(movieRepository)
 
-	movie.Get("/", movieController.GetMovies)
-	movie.Post("/search", movieController.SearchMovies)
+	movie.Get("/", movieHandler.GetMovies)
+	movie.Post("/search", movieHandler.SearchMovies)
+	movie.Post("/create", movieHandler.CreateMovie)
+	movie.Put("/update/:id", movieHandler.UpdateMovie)
 }

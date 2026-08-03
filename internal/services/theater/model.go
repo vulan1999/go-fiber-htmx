@@ -10,7 +10,7 @@ type Address struct {
 }
 
 type Geo struct {
-	Coordinates []float32 `json:"coordinates" bson:"coordinates"`
+	Coordinates []float64 `json:"coordinates" bson:"coordinates"`
 }
 
 type Location struct {
@@ -21,5 +21,5 @@ type Location struct {
 type Theater struct {
 	ID        bson.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	TheaterID int           `json:"theater_id" bson:"theaterId"`
-	Location  any           `json:"locatiton" bson:"location"`
+	Location  Location      `json:"locatiton" bson:"location"`
 }

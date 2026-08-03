@@ -36,7 +36,7 @@ func StructuredLogger() fiber.Handler {
 				slog.String("method", c.Method()),
 				slog.String("path", c.Path()),
 				slog.String("request_body", string(c.Body())),
-				slog.String("response_body", string(c.Response().Body())),
+				// slog.String("response_body", string(c.Response().Body())),
 				slog.Duration("latency", latency),
 			)
 		}

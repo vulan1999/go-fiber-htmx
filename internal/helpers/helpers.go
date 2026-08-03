@@ -8,3 +8,8 @@ func GetEnv(key, defaultValue string) string {
 	}
 	return defaultValue
 }
+
+type ApiResponse struct {
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+}
