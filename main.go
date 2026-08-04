@@ -3,10 +3,12 @@ package main
 import (
 	"log"
 
+	swaggo "github.com/gofiber/contrib/v3/swaggo"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/requestid"
 	"github.com/gofiber/template/html/v3"
 	"github.com/joho/godotenv"
+	_ "github.com/vulan1999/todo-htmx/docs"
 	"github.com/vulan1999/todo-htmx/internal/database"
 	"github.com/vulan1999/todo-htmx/internal/helpers"
 	"github.com/vulan1999/todo-htmx/internal/middleware"
@@ -26,7 +28,7 @@ func init() {
 
 func main() {
 	// HTML template engine
-	engine := html.New("./app/views", ".html")
+	engine := html.New("./internal/views", ".html")
 	engine.Reload(true)
 	app := fiber.New(
 		fiber.Config{
@@ -52,6 +54,7 @@ func main() {
 			"PageName": "Home",
 		}, "layouts/main")
 	})
+	app.Get("/swagger/*", swaggo.HandlerDefault)
 
 	movie.ApiMovieGroup(app)
 	theater.ApiTheaterGroup(app)

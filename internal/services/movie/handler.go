@@ -27,8 +27,7 @@ func NewMovieHandler(repo *MovieRepository) *MovieHandler {
 // @Param limit query int false "Number of movies per page" default(10)
 // @Success 200 {object} helpers.ApiResponse
 // @Failure 500 {object} helpers.ApiResponse
-// @Router /api/movies [get]
-
+// @Router /api/movies/ [get]
 func (mh *MovieHandler) GetMovies(c fiber.Ctx) error {
 	page := fiber.Query[int64](c, "page", 1)
 	limit := fiber.Query[int64](c, "limit", 10)
